@@ -1,5 +1,8 @@
 package per.khr.main.userservice.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import per.khr.main.userservice.vo.RequestUser;
 import per.khr.main.userservice.vo.ResponseUser;
@@ -8,10 +11,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
+    private Environment env;
+
+    @Autowired
+    public UserController(Environment env) {
+        this.env = env;
+    }
+
     @GetMapping("/health_check")
     public String status() {
-        return String.format("user-service connected");
+        log.debug("커넥션 체크");
+
+        return String.format(
+                "user-service connected"
+                + ", port(server.port) : " + env.getProperty("server.port") // application.yaml 파일의 server.port key 값
+        );
     }
 
     /**
