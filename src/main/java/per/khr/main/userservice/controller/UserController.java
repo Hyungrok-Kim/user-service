@@ -1,11 +1,15 @@
 package per.khr.main.userservice.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import per.khr.main.userservice.dto.UserDto;
 import per.khr.main.userservice.vo.RequestUser;
 import per.khr.main.userservice.vo.ResponseUser;
 
@@ -52,6 +56,12 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ResponseUser resultUser = new ResponseUser();
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT); // Matching을 STRICT하게 설정
+
+        // Request로부터 전달된 RequestUser 객체를 ModelMapper 객체를 이용해 UserDto객체로 변환
+        // RequestUser -> userDto
+        UserDto userDto = mapper.map(user, UserDto.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(resultUser);
     }
