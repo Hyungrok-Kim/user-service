@@ -22,11 +22,12 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        log.debug("커넥션 체크");
+        log.info("커넥션 체크");
 
         return String.format(
                 "user-service connected"
                 + ", port(server.port) : " + env.getProperty("server.port") // application.yaml 파일의 server.port key 값
+                + " " + env.getProperty("greeting.name")
         );
     }
 

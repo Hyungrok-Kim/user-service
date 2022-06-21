@@ -5,4 +5,5 @@ spring:
   application:
     name: user-service
 
-
+greeting:
+  name: Welcome User Service Platform
