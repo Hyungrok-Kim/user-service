@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
  * -> UserDao를 JPA의 라이프사이클에 맞춰 관리하겠다.
  */
 public interface UserDao extends CrudRepository<UserEntity, Long> {
+//    public List<UserEntity> findByName(String name);
 }
