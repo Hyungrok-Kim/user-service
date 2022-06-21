@@ -3,6 +3,8 @@ package per.khr.main.userservice.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import per.khr.main.userservice.vo.RequestUser;
 import per.khr.main.userservice.vo.ResponseUser;
@@ -26,8 +28,8 @@ public class UserController {
 
         return String.format(
                 "user-service connected"
-                + ", port(server.port) : " + env.getProperty("server.port") // application.yaml 파일의 server.port key 값
-                + " " + env.getProperty("greeting.name")
+                        + ", port(server.port) : " + env.getProperty("server.port") // application.yaml 파일의 server.port key 값
+                        + " " + env.getProperty("greeting.name")
         );
     }
 
@@ -44,12 +46,14 @@ public class UserController {
     /**
      * 사용자 가입
      *
-     * @param user : 사용자정보
-     * @return
+     * @param user : 사용자 정보
+     * @return ResponseEntity<ResponseUser≥ : 생성한 사용자 정보
      */
     @PostMapping("/")
-    public String createUser(@RequestBody RequestUser user) {
-        return "created success";
+    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
+        ResponseUser resultUser = new ResponseUser();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(resultUser);
     }
 
     /**
