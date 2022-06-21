@@ -2,7 +2,6 @@ package per.khr.main.userservice.service;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.internal.bytebuddy.matcher.StringMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import per.khr.main.userservice.dao.UserDao;
@@ -37,6 +36,8 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
-        return null;
+        // UserDao 클래스에서 CrudRepository 클래스를 상속받았기 때문에 save메소드가 자동으로 구현되어있다.
+        userDao.save(userEntity);
+        return userDto;
     }
 }
