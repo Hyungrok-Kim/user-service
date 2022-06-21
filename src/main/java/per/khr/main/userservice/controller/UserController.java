@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import per.khr.main.userservice.dto.UserDto;
+import per.khr.main.userservice.service.UserService;
 import per.khr.main.userservice.vo.RequestUser;
 import per.khr.main.userservice.vo.ResponseUser;
 
@@ -20,10 +21,12 @@ import java.util.List;
 @Slf4j
 public class UserController {
     private Environment env;
+    private UserService service;
 
     @Autowired
-    public UserController(Environment env) {
+    public UserController(Environment env, UserService service) {
         this.env = env;
+        this.service = service;
     }
 
     @GetMapping("/health_check")
@@ -51,17 +54,23 @@ public class UserController {
      * 사용자 가입
      *
      * @param user : 사용자 정보
-     * @return ResponseEntity<ResponseUser≥ : 생성한 사용자 정보
+     * @return ResponseEntity<ResponseUser ≥ : 생성한 사용자 정보
      */
     @PostMapping("/")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
-        ResponseUser resultUser = new ResponseUser();
+        // RequestUser -> userDto 객체 변환을 안전하게 하기 위한 ModelMapper 객체
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT); // Matching을 STRICT하게 설정
 
         // Request로부터 전달된 RequestUser 객체를 ModelMapper 객체를 이용해 UserDto객체로 변환
         // RequestUser -> userDto
         UserDto userDto = mapper.map(user, UserDto.class);
+
+        // UserService 호출
+        userDto = service.createUser(userDto);
+
+        // userDto -> ResponseUser
+        ResponseUser resultUser = mapper.map(userDto, ResponseUser.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(resultUser);
     }
