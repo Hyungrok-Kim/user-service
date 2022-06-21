@@ -2,7 +2,10 @@ package per.khr.main.userservice.service;
 
 import per.khr.main.userservice.dto.UserDto;
 
+/**
+ * interface는 기본적으로 public abstract를 내포하고 있음 -> 생략 가능
+ */
 public interface UserService {
 
-    public UserDto createUser(UserDto userDto);
+    UserDto createUser(UserDto userDto);
 }
