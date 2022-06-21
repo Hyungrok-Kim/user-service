@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         // UUID로 userId UNIQUE하게 세팅
         userDto.setUserId(UUID.randomUUID().toString());
+        userDto.setEncryptedPassword("encryted password");
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
