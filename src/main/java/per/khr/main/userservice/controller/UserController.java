@@ -16,16 +16,17 @@ public class UserController {
 
     /**
      * 사용자 목록 조회
+     *
      * @return
      */
     @GetMapping("/users")
     public List<ResponseUser> getUsers() {
-
         return null;
     }
 
     /**
      * 사용자 가입
+     *
      * @param user : 사용자정보
      * @return
      */
@@ -36,6 +37,7 @@ public class UserController {
 
     /**
      * 유저 정보 조회
+     *
      * @param userId : 사용자 아이디
      * @return
      */
@@ -46,6 +48,7 @@ public class UserController {
 
     /**
      * 유저 정보 수정
+     *
      * @param user : 사용자 정보
      * @return
      */
@@ -55,7 +58,8 @@ public class UserController {
     }
 
     /**
-     * 유저 정보 삭제
+     * 유저 정보 삭제(탈퇴)
+     *
      * @param user : 사용자 정보
      * @return
      */
