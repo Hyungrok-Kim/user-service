@@ -1,5 +1,6 @@
 package per.khr.main.userservice.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import per.khr.main.userservice.service.UserService;
 
 /**
  * @EnableWebSecurity 해당 Configuration 클래스를 Spring Security Config 클래스로 사용하겠다.
@@ -14,6 +16,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private UserService service;
+
+    @Autowired
+    public WebSecurityConfig(UserService service) {
+        this.service = service;
+    }
+
     /**
      * 정의해 둔 AuthenticationFilter 객체에 Security Manager를 등록 후 리턴.
      * 관리를 Security쪽에서 해주게 하기 위한 설정.
@@ -51,11 +60,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(getAuthFilter());
         // /users 요청 시 AuthenticationFilter를 거치게끔 설정
 
+//        http
+//                .authorizeRequests().antMatchers("/users/**").hasIpAddress("localhost")
+//                .and()
+//                .addFilter(getAuthFilter());
+
         http.headers().frameOptions().disable(); // h2-console 접근을 막지 않는 설정
     }
 
+    /**
+     * AuthenticationManagerBuilder의 userDetailsService로 등록하기 위해서
+     * UserService 객체에서 extends로 UserDeatilsService를 상속받아주자~
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(service).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /**
