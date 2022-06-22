@@ -111,7 +111,7 @@ public class UserController {
     }
 
     /**
-     * 로그인 옛날 방식
+     * 로그인 모놀리틱 방식(옛날 방식)
      */
 //    @PostMapping("/login")
 //    public ResponseEntity<ResponseUser> loginCheck(@RequestBody RequestLogin user, HttpServletRequest request) {
