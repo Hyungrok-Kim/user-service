@@ -10,6 +10,10 @@ import per.khr.main.userservice.dto.UserDto;
 
 import java.util.UUID;
 
+/**
+ * UserSerivce 인터페이스 구현체가 여러개 있다면 @Service("UserSerivce")와 같이 식별자 추가하고
+ * Controller에서 Autowired 대신 @Qualifier 어노테이션을 사용하는 편
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
