@@ -33,6 +33,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
+    /**
+     * attemptAuthentication 메소드에서 정상적으로 return 시 실행
+     * 인증 성공 시 JWT token 발행해주자~
+     * @param request
+     * @param response
+     * @param chain
+     * @param authResult
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);

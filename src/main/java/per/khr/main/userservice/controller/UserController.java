@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        log.info("커넥션 체크");
+        log.info("[커넥션 체크]");
 
         return String.format(
                 "user-service connected"
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     /**
-     * 사용자 목록 조회
+     * 사용자 목록 조회.
      *
      * @return
      */
@@ -53,10 +53,10 @@ public class UserController {
     }
 
     /**
-     * 사용자 가입
+     * 사용자 가입.
      *
-     * @param user : 사용자 정보
-     * @return ResponseEntity<ResponseUser ≥ : 생성한 사용자 정보
+     * @param user : 사용자 정보.
+     * @return ResponseEntity<ResponseUser ≥ : 생성한 사용자 정보.
      */
     @PostMapping("/")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
@@ -78,9 +78,9 @@ public class UserController {
     }
 
     /**
-     * 유저 정보 조회
+     * 유저 정보 조회.
      *
-     * @param userId : 사용자 아이디
+     * @param userId : 사용자 아이디.
      * @return
      */
     @GetMapping("/{userId}")
@@ -89,9 +89,9 @@ public class UserController {
     }
 
     /**
-     * 유저 정보 수정
+     * 유저 정보 수정.
      *
-     * @param user : 사용자 정보
+     * @param user : 사용자 정보.
      * @return
      */
     @PutMapping("/{userId}")      // PutMapping에 지정한 key 값
@@ -100,9 +100,9 @@ public class UserController {
     }
 
     /**
-     * 유저 정보 삭제(탈퇴)
+     * 유저 정보 삭제(탈퇴).
      *
-     * @param user : 사용자 정보
+     * @param user : 사용자 정보.
      * @return
      */
     @DeleteMapping("/{userId}")
@@ -111,7 +111,7 @@ public class UserController {
     }
 
     /**
-     * 로그인 모놀리틱 방식(옛날 방식)
+     * 로그인 모놀리틱 방식(옛날 방식).
      */
 //    @PostMapping("/login")
 //    public ResponseEntity<ResponseUser> loginCheck(@RequestBody RequestLogin user, HttpServletRequest request) {
