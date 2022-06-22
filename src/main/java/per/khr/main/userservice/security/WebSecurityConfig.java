@@ -9,15 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * @EnableWebSecurity
- * 해당 Configuration 클래스를 Spring Security Config 클래스로 사용하겠다.
+ * @EnableWebSecurity 해당 Configuration 클래스를 Spring Security Config 클래스로 사용하겠다.
  */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable(); // Cross-Site Request Forgery 방지
+        http.csrf().disable(); // Cross-Site Request Forgery 방지 설정
+        http.httpBasic().disable(); // Spring security basic login form 사용하지 않겠다는 설정
 
         http.authorizeRequests().antMatchers("/users/**").permitAll();
         // /users/* vs /users/**
@@ -34,9 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * @Bean
-     * 기본이 싱글톤 패턴
      * @return : BCryptPasswordEncoder()
+     * @Bean으로 등록한 IOC 컨테이너에서 관리하는 빈 객체는 기본이 싱글톤 패턴
      */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
