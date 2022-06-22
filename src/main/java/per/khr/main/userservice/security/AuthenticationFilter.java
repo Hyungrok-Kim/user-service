@@ -25,6 +25,9 @@ import java.util.Date;
  * Spring security을 활용한 로그인을 위한 Filter 구현해보자~
  */
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    static final long EXPIRATIONTIME = 1000 * 60;
+    static final String SIGNINGKEY = "signingKey";
+    static final String BEARER_PREFIX = "Bearer";
     private UserService service;
 
     @Autowired
@@ -65,11 +68,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String jwtToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(email)
-                .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 30)))
-                .signWith(SignatureAlgorithm.HS512, "signingKey")
+                .setExpiration(new Date(System.currentTimeMillis() + (EXPIRATIONTIME * 30)))
+                .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)
                 .compact();
 
-        response.addHeader("Authorization", jwtToken);
+        response.addHeader("Authorization", BEARER_PREFIX + " " + jwtToken);
         response.addHeader("email", email);
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }
