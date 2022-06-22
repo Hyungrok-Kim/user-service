@@ -3,6 +3,7 @@ package per.khr.main.userservice.service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import per.khr.main.userservice.dao.UserDao;
 import per.khr.main.userservice.dao.UserEntity;
@@ -18,10 +19,12 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -34,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         // UUID로 userId UNIQUE하게 세팅
         userDto.setUserId(UUID.randomUUID().toString());
-        userDto.setEncryptedPassword("encryted password");
+        userDto.setEncryptedPassword(passwordEncoder.encode(userDto.getPassword()));
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

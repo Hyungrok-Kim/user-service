@@ -33,8 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(auth);
     }
 
+    /**
+     * @Bean
+     * 기본이 싱글톤 패턴
+     * @return : BCryptPasswordEncoder()
+     */
     @Bean
-    public BCryptPasswordEncoder getPasswordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
