@@ -53,12 +53,25 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
+    /**
+     * UserService에서 상속받은 UserDetailsService의 구현 메소드.
+     * Spring security에서 User 객체는 제공해줍니다~
+     *
+     * @param email
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByEmail(email);
 
         if (userEntity == null) throw new UsernameNotFoundException(email);
 
-        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), Collections.emptyList());
+        return new User(
+                userEntity.getEmail(),
+                userEntity.getEncryptedPassword(),
+                true, true, true, true,
+                Collections.emptyList()
+        );
     }
 }

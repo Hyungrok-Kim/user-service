@@ -17,10 +17,12 @@ import per.khr.main.userservice.service.UserService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService service;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(UserService service) {
+    public WebSecurityConfig(UserService service, BCryptPasswordEncoder passwordEncoder) {
         this.service = service;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -31,8 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * @throws Exception
      */
     private AuthenticationFilter getAuthFilter() throws Exception {
-        AuthenticationFilter authFilter = new AuthenticationFilter();
-        authFilter.setAuthenticationManager(authenticationManager());
+        AuthenticationFilter authFilter = new AuthenticationFilter(service, authenticationManager());
 
         return authFilter;
     }
@@ -71,20 +72,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * AuthenticationManagerBuilder의 userDetailsService로 등록하기 위해서
      * UserService 객체에서 extends로 UserDeatilsService를 상속받아주자~
+     *
+     * AuthenticationManagerBuilder가 service 등록한 userDatilsService의 loadByUsername 메소드를
+     * 거친 후 return 받은 User객체와 입력한 ReqeustLogin 유저 정보 중 패스워드를 BCryptPasswordEncoder로 암호화 한 후 비교한다~
      * @param auth
      * @throws Exception
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service).passwordEncoder(new BCryptPasswordEncoder());
-    }
-
-    /**
-     * @return : BCryptPasswordEncoder()
-     * @Bean으로 등록한 IOC 컨테이너에서 관리하는 빈 객체는 기본이 싱글톤 패턴.
-     */
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        auth.userDetailsService(service).passwordEncoder(passwordEncoder);
     }
 }

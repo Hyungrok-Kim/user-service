@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
  * -> UserDao를 JPA의 라이프사이클에 맞춰 관리하겠다.
  */
 public interface UserDao extends CrudRepository<UserEntity, Long> {
-//    List<UserEntity> findByName(String name);
-    UserEntity findByEmail(String email);
+    UserEntity findByEmail(String email); // CrudRepository를 상속받았으니
+                                          // JPA에서 where절에 email을 넣어서 쿼리 자동 생성해줍니다~
 }
