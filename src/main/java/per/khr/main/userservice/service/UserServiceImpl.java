@@ -3,6 +3,7 @@ package per.khr.main.userservice.service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,11 +12,12 @@ import per.khr.main.userservice.dao.UserDao;
 import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
 
+import java.util.Collections;
 import java.util.UUID;
 
 /**
  * UserSerivce 인터페이스 구현체가 여러개 있다면 @Service("UserSerivce")와 같이 식별자 추가하고
- * Controller에서 Autowired 대신 @Qualifier 어노테이션을 사용하는 편
+ * Controller에서 Autowired 대신 @Qualifier 어노테이션을 사용하는 편.
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,9 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * userDto -> userEntity 객체로 변환 후 dao에 insert
+     * userDto -> userEntity 객체로 변환 후 dao에 insert.
      *
-     * @param userDto : userEntity 객체로 변환 후 dao로 전달할 userDto
+     * @param userDto : userEntity 객체로 변환 후 dao로 전달할 userDto.
      * @return
      */
     @Override
@@ -52,7 +54,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = userDao.findByEmail(email);
+
+        if (userEntity == null) throw new UsernameNotFoundException(email);
+
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), Collections.emptyList());
     }
 }
