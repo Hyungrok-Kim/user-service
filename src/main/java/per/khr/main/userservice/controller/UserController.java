@@ -10,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import per.khr.main.userservice.dto.UserDto;
 import per.khr.main.userservice.service.UserService;
+import per.khr.main.userservice.vo.RequestLogin;
 import per.khr.main.userservice.vo.RequestUser;
 import per.khr.main.userservice.vo.ResponseUser;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -106,4 +109,14 @@ public class UserController {
     public String deleteUser(@PathVariable("userId") RequestUser user) {
         return "delete success";
     }
+
+    /**
+     * 로그인 옛날 방식
+     */
+//    @PostMapping("/login")
+//    public ResponseEntity<ResponseUser> loginCheck(@RequestBody RequestLogin user, HttpServletRequest request) {
+//          모놀리틱 방식(예전 방식)
+////        HttpSession session = request.getSession(false); // false로 설정하면 null이면 null return, session있으면 해당 session return
+//
+//    }
 }
