@@ -59,13 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/users").permitAll()
+                .antMatchers("/users").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/users/login").permitAll()
                 .and()
                 .addFilter(getAuthFilter());
 //                    .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.formLogin().loginPage("/users/login");
+        http.formLogin()
+                .loginPage("/users/login")
+                .usernameParameter("email");
         // /users 요청 시 AuthenticationFilter를 거치게끔 설정
 
 //        http
