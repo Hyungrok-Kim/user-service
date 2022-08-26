@@ -23,3 +23,7 @@ spring:
 
 greeting:
   name: Welcome User Service Platform
+
+#  springdoc.api-docs.groups.enabled=true
+#  springdoc.swagger-ui.path=/swagger-doc/swagger-ui.html
+#  springdoc.api-docs.path=/swagger-doc/v3/api-docs

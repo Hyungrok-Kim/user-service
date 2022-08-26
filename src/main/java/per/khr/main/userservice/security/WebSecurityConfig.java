@@ -3,11 +3,13 @@ package per.khr.main.userservice.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import per.khr.main.userservice.service.UserService;
 
 /**
@@ -56,9 +58,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 후자는 /users/123/123이더라도 / 하위까지 다 포함해서 설정하겠다.
 
         http
-                .authorizeRequests().antMatchers("/users").permitAll()
+                .authorizeRequests()
+                    .antMatchers("/users").permitAll()
+//                    .antMatchers(HttpMethod.POST, "/users/login").permitAll()
                 .and()
                 .addFilter(getAuthFilter());
+//                    .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.formLogin().loginPage("/users/login");
         // /users 요청 시 AuthenticationFilter를 거치게끔 설정
 
 //        http
@@ -72,9 +79,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * AuthenticationManagerBuilder의 userDetailsService로 등록하기 위해서
      * UserService 객체에서 extends로 UserDeatilsService를 상속받아주자~
-     *
+     * <p>
      * AuthenticationManagerBuilder가 service 등록한 userDatilsService의 loadByUsername 메소드를
      * 거친 후 return 받은 User객체와 입력한 ReqeustLogin 유저 정보 중 패스워드를 BCryptPasswordEncoder로 암호화 한 후 비교한다~
+     *
      * @param auth
      * @throws Exception
      */
