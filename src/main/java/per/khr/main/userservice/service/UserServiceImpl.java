@@ -1,8 +1,11 @@
 package per.khr.main.userservice.service;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +15,10 @@ import per.khr.main.userservice.dao.UserDao;
 import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -24,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
     private BCryptPasswordEncoder passwordEncoder;
+    static final long EXPIRATIONTIME = 1000 * 60;
+    static final String SIGNINGKEY = "signingKey";
+    static final String BEARER_PREFIX = "Bearer";
 
     @Autowired
     public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder passwordEncoder) {
@@ -73,5 +82,20 @@ public class UserServiceImpl implements UserService {
                 true, true, true, true,
                 Collections.emptyList()
         );
+    }
+
+    static public void addJWTToken(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
+        String email = ((User) auth.getPrincipal()).getUsername();
+
+        String jwtToken = Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + (EXPIRATIONTIME * 30)))
+                .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)
+                .compact();
+
+        response.addHeader("Authorization", BEARER_PREFIX + " " + jwtToken);
+        response.addHeader("email", email);
+        response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }
 }

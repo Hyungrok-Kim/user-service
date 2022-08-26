@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +18,7 @@ import per.khr.main.userservice.service.UserService;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService service;
     private BCryptPasswordEncoder passwordEncoder;
@@ -62,8 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/users/login").permitAll()
                 .and()
-                .addFilter(getAuthFilter());
-//                    .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+//                .addFilter(getAuthFilter())
+//                .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new LoginFilter("/users/login", authenticationManager()),
+                        UsernamePasswordAuthenticationFilter.class);
+
 
         http.formLogin()
                 .loginPage("/users/login")
