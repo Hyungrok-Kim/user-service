@@ -65,9 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .antMatchers(HttpMethod.POST, "/users/login").permitAll()
                 .and()
 //                .addFilter(getAuthFilter())
-//                .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
-                .addFilterBefore(new LoginFilter("/users/login", authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         http.formLogin()

@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import per.khr.main.userservice.service.UserService;
 import per.khr.main.userservice.vo.RequestLogin;
 
@@ -34,6 +35,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
     public AuthenticationFilter(UserService service, AuthenticationManager authManager) {
         super.setAuthenticationManager(authManager);
+        setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/users/login","POST"));
         this.service = service;
     }
 
