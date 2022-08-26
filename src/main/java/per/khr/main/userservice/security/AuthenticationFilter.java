@@ -32,6 +32,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     static final String BEARER_PREFIX = "Bearer";
     private UserService service;
 
+    /**
+     *  setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/users/login","POST"));
+     *  /users/login 주소에 POST 요청이 발생했을 때 인증 필터를 거치도록하기 위한 설정.
+     * @param service
+     * @param authManager
+     */
     @Autowired
     public AuthenticationFilter(UserService service, AuthenticationManager authManager) {
         super.setAuthenticationManager(authManager);

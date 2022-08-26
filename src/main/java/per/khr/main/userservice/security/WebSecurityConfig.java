@@ -45,6 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 접근 권한 설정.
      *
+     * .addFilter(getAuthFilter())
+     * .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+     * 은 동일한 기능을 수행한다.
      * @param http
      * @throws Exception
      */
@@ -64,8 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/users/login").permitAll()
                 .and()
-//                .addFilter(getAuthFilter())
-                .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilter(getAuthFilter());
+//                .addFilterBefore(getAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         http.formLogin()
