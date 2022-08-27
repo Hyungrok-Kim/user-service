@@ -18,12 +18,16 @@ spring:
     url: jdbc:h2:~/test
     username: sa
     password:
-
 # h2 test DB를 사용중이기 때문에 datasource 아래엔 생략 가능.
 
 greeting:
   name: Welcome User Service Platform
 
-#  springdoc.api-docs.groups.enabled=true
-#  springdoc.swagger-ui.path=/swagger-doc/swagger-ui.html
-#  springdoc.api-docs.path=/swagger-doc/v3/api-docs
+# Swagger UI 설정
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+    path: /swagger-doc/v3/api-docs
+  swagger-ui:
+    path: /swagger-doc/swagger-ui.html
