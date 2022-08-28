@@ -30,6 +30,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * @return : BCryptPasswordEncoder()
+     * @Bean으로 등록한 IOC 컨테이너에서 관리하는 빈 객체는 기본이 싱글톤 패턴.
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
      * 정의해 둔 AuthenticationFilter 객체에 Security Manager를 등록 후 리턴.
      * 관리를 Security쪽에서 해주게 하기 위한 설정.
      *
