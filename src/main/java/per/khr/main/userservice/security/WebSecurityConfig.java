@@ -28,16 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.service = service;
         this.passwordEncoder = passwordEncoder;
     }
-
-    /**
-     * @return : BCryptPasswordEncoder()
-     * @Bean으로 등록한 IOC 컨테이너에서 관리하는 빈 객체는 기본이 싱글톤 패턴.
-     */
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     /**
      * 정의해 둔 AuthenticationFilter 객체에 Security Manager를 등록 후 리턴.
      * 관리를 Security쪽에서 해주게 하기 위한 설정.
@@ -50,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return authFilter;
     }
-
     /**
      * 접근 권한 설정.
      *
@@ -92,7 +81,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().disable(); // h2-console 접근을 막지 않는 설정
     }
-
     /**
      * AuthenticationManagerBuilder의 userDetailsService로 등록하기 위해서
      * UserService 객체에서 extends로 UserDeatilsService를 상속받아주자~
