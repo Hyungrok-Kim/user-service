@@ -115,12 +115,22 @@ public class UserController {
      * @return
      */
     @PutMapping("/{userId}")      // PutMapping에 지정한 key 값
-    public String modifyUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
+    public ResponseEntity<ResponseUser> modifyUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
         Optional<UserEntity> existUser = Optional.of(service.getUser(userId));
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        existUser.isPresent();
+        UserDto userDto;
+        if (existUser.isPresent()) {
+            userDto = mapper.map(user, UserDto.class);
+            userDto = service.modifyUser(userDto);
 
-        return "modify success";
+            ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseUser);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     /**

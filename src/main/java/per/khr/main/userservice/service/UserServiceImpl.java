@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import per.khr.main.userservice.dao.UserDao;
 import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
@@ -84,8 +86,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int modifyUser(String userId, RequestUser user) {
-        return 1;
+    public UserDto modifyUser(UserDto userDto) {
+        userDto.setEncryptedPassword(userDto.getPassword());
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
+
+        userDao.save(userEntity);
+        return userDto;
     }
 
     /**
