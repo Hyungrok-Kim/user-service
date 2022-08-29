@@ -61,18 +61,13 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
+    /**
+     *
+     * @return List<ResponseUser>
+     */
     @Override
-    public List<ResponseUser> getUsers() {
-        List<ResponseUser> result = new ArrayList<>();
-        Iterable<UserEntity> users = userDao.findAll();
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-
-        for (UserEntity user : users) {
-            result.add(mapper.map(user, ResponseUser.class));
-        }
-
-        return result;
+    public List<UserEntity> getUsers() {
+        return userDao.findAll();
     }
 
     /**

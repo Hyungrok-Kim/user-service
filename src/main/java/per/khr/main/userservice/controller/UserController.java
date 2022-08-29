@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
 import per.khr.main.userservice.service.UserService;
 import per.khr.main.userservice.vo.RequestLogin;
@@ -16,6 +17,7 @@ import per.khr.main.userservice.vo.ResponseUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -49,11 +51,18 @@ public class UserController {
      */
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getUsers() {
-        List<ResponseUser> users = service.getUsers();
+        List<ResponseUser> result = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 
-        if (users.isEmpty()) return ResponseEntity.notFound().build();
+        List<UserEntity> users = service.getUsers();
 
-        return ResponseEntity.ok().body(users);
+        users.forEach((user) -> {
+            result.add(mapper.map(user, ResponseUser.class));
+        });
+
+        if (result.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(result);
     }
 
     /**

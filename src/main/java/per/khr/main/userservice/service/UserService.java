@@ -1,6 +1,7 @@
 package per.khr.main.userservice.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
 import per.khr.main.userservice.vo.ResponseUser;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
 
     UserDto createUser(UserDto userDto);
-    List<ResponseUser> getUsers();
+    List<UserEntity> getUsers();
 }
