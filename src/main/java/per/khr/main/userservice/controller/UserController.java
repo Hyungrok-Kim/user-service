@@ -49,7 +49,7 @@ public class UserController {
      *
      * @return
      */
-    @GetMapping("/users")
+    @GetMapping("/")
     public ResponseEntity<List<ResponseUser>> getUsers() {
         List<ResponseUser> result = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
@@ -97,8 +97,14 @@ public class UserController {
      * @return
      */
     @GetMapping("/{userId}")
-    public ResponseUser getUser(@PathVariable("userId") String userId) {
-        return null;
+    public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId) {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        ResponseUser user = mapper.map(service.getUser(userId), ResponseUser.class);
+
+        if (user == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(user);
     }
 
     /**

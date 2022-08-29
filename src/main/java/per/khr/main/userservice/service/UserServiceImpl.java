@@ -62,12 +62,24 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 모든 User 조회.
      *
      * @return List<ResponseUser>
      */
     @Override
     public List<UserEntity> getUsers() {
         return userDao.findAll();
+    }
+
+    /**
+     * PathVariable을 통한 User 조회.
+     *
+     * @param userId : 사용자 아이디
+     * @return UserEntity
+     */
+    @Override
+    public UserEntity getUser(String userId) {
+        return userDao.findByUserId(userId);
     }
 
     /**

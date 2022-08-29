@@ -14,4 +14,5 @@ public interface UserService extends UserDetailsService {
 
     UserDto createUser(UserDto userDto);
     List<UserEntity> getUsers();
+    UserEntity getUser(String userId);
 }
