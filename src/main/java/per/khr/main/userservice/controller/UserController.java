@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -114,7 +115,11 @@ public class UserController {
      * @return
      */
     @PutMapping("/{userId}")      // PutMapping에 지정한 key 값
-    public String modifyUser(@PathVariable("userId") RequestUser user) {
+    public String modifyUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
+        Optional<UserEntity> existUser = Optional.of(service.getUser(userId));
+
+        existUser.isPresent();
+
         return "modify success";
     }
 
@@ -125,7 +130,7 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable("userId") RequestUser user) {
+    public String deleteUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
         return "delete success";
     }
 

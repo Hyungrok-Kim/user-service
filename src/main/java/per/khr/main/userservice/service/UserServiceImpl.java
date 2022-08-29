@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import per.khr.main.userservice.dao.UserDao;
 import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
+import per.khr.main.userservice.vo.RequestUser;
 import per.khr.main.userservice.vo.ResponseUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +81,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUser(String userId) {
         return userDao.findByUserId(userId);
+    }
+
+    @Override
+    public int modifyUser(String userId, RequestUser user) {
+        return 1;
     }
 
     /**
