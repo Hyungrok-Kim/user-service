@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service;
 import per.khr.main.userservice.dao.UserDao;
 import per.khr.main.userservice.dao.UserEntity;
 import per.khr.main.userservice.dto.UserDto;
+import per.khr.main.userservice.vo.ResponseUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * UserSerivce 인터페이스 구현체가 여러개 있다면 @Service("UserSerivce")와 같이 식별자 추가하고
@@ -60,6 +59,20 @@ public class UserServiceImpl implements UserService {
         // UserDao 클래스에서 CrudRepository 클래스를 상속받았기 때문에 save메소드가 자동으로 구현되어있다.
         userDao.save(userEntity);
         return userDto;
+    }
+
+    @Override
+    public List<ResponseUser> getUsers() {
+        List<ResponseUser> result = new ArrayList<>();
+        Iterable<UserEntity> users = userDao.findAll();
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+
+        for (UserEntity user : users) {
+            result.add(mapper.map(user, ResponseUser.class));
+        }
+
+        return result;
     }
 
     /**

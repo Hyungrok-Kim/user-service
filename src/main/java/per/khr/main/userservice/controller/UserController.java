@@ -48,8 +48,12 @@ public class UserController {
      * @return
      */
     @GetMapping("/users")
-    public List<ResponseUser> getUsers() {
-        return null;
+    public ResponseEntity<List<ResponseUser>> getUsers() {
+        List<ResponseUser> users = service.getUsers();
+
+        if (users.isEmpty()) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok().body(users);
     }
 
     /**
