@@ -70,7 +70,7 @@ public class UserController {
      * 사용자 가입.
      *
      * @param user : 사용자 정보.
-     * @return ResponseEntity<ResponseUser ≥ : 생성한 사용자 정보.
+     * @return ResponseEntity<ResponseUser> : 생성한 사용자 정보.
      */
     @PostMapping("/")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
