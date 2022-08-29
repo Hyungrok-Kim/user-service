@@ -127,7 +127,7 @@ public class UserController {
 
             ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
         }
 
         return ResponseEntity.notFound().build();
