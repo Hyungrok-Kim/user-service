@@ -122,7 +122,10 @@ public class UserController {
 
         UserDto userDto;
         if (existUser.isPresent()) {
-            userDto = mapper.map(user, UserDto.class);
+            userDto = mapper.map(existUser.get(), UserDto.class);
+            userDto.setEmail(user.getEmail());
+            userDto.setName(user.getName());
+            userDto.setPassword(user.getPassword());
             userDto = service.modifyUser(userDto);
 
             ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);

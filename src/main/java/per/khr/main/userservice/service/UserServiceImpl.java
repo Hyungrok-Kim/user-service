@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto modifyUser(UserDto userDto) {
-        userDto.setEncryptedPassword(userDto.getPassword());
+        userDto.setEncryptedPassword(passwordEncoder.encode(userDto.getPassword()));
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

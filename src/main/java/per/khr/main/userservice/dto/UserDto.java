@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Data // Setter, Getter를 자동으로 만들기 위한 어노테이션 (사용 지양 -> Setter는 커스텀하는 경우가 많기 때문)
 public class UserDto {
+    private Long id;
     private String email;
     private String name;
     private String password;
