@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * PathVariable을 통한 User 조회.
+     * @PathVariable을 통한 User 조회.
      *
      * @param userId : 사용자 아이디
      * @return UserEntity
@@ -85,6 +85,11 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUserId(userId);
     }
 
+    /**
+     * @PathVariable로 받은 유저에 해당하는 User 정보 수정.
+     * @param userDto
+     * @return
+     */
     @Override
     public UserDto modifyUser(UserDto userDto) {
         userDto.setEncryptedPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -95,6 +100,22 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
         userDao.save(userEntity);
+        return userDto;
+    }
+
+    /**
+     * @PathVariable로 받은 유저에 해당하는 User 삭제.
+     * @param userDto
+     * @return
+     */
+    @Override
+    public UserDto deleteUser(UserDto userDto) {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
+
+        userDao.delete(userEntity);
         return userDto;
     }
 

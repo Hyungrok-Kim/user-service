@@ -143,13 +143,27 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
-        return "delete success";
+    public ResponseEntity<ResponseUser> deleteUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
+        Optional<UserEntity> existUser = Optional.of(service.getUser(userId));
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        UserDto userDto;
+        if (existUser.isPresent()) {
+            userDto = mapper.map(existUser.get(), UserDto.class);
+            userDto.setEmail(user.getEmail());
+            userDto.setName(user.getName());
+            userDto.setPassword(user.getPassword());
+            userDto = service.deleteUser(userDto);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     /**
      * 로그인 모놀리틱 방식(옛날 방식).
      */
+
 //    @PostMapping("/login")
 //    public ResponseEntity<ResponseUser> loginCheck(@RequestBody RequestLogin user, HttpServletRequest request) {
 //          모놀리틱 방식(예전 방식)
