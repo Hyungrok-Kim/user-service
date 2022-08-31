@@ -13,5 +13,4 @@ public interface UserDao extends CrudRepository<UserEntity, Long> {
     UserEntity findByEmail(String email); // CrudRepository를 상속받았으니 JPA에서 where절에 email을 넣어서 쿼리 자동 생성해줍니다~
     List<UserEntity> findAll();
     UserEntity findByUserId(String userId);
-    UserEntity deleteByUserId(String userId);
 }

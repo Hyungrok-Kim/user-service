@@ -105,18 +105,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * @PathVariable로 받은 유저에 해당하는 User 삭제.
-     * @param userId
+     * @param userDto : 유저 정보.
      * @return
      */
     @Override
-    public UserDto deleteUser(String userId) {
+    public UserDto deleteUser(UserDto userDto) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        UserEntity deletedUser = userDao.deleteByUserId(userId);
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
-        UserDto userDto = mapper.map(deletedUser, UserDto.class);
-
+        userDao.delete(userEntity);
         return userDto;
     }
 

@@ -139,7 +139,7 @@ public class UserController {
     /**
      * 유저 정보 삭제(탈퇴).
      *
-     * @param user : 사용자 정보.
+     * @param userId : 유저 아이디.
      * @return
      */
     @DeleteMapping("/{userId}")
@@ -150,7 +150,8 @@ public class UserController {
 
         UserDto userDto;
         if (existUser.isPresent()) {
-            userDto = service.deleteUser(userId);
+            userDto = mapper.map(existUser, UserDto.class);
+            userDto = service.deleteUser(userDto);
 
             ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
 
