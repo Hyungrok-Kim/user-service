@@ -150,7 +150,7 @@ public class UserController {
 
         UserDto userDto;
         if (existUser.isPresent()) {
-            userDto = mapper.map(existUser, UserDto.class);
+            userDto = mapper.map(existUser.get(), UserDto.class);
             userDto = service.deleteUser(userDto);
 
             ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
