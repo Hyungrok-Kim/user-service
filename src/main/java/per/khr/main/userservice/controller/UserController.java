@@ -150,11 +150,11 @@ public class UserController {
 
         UserDto userDto;
         if (existUser.isPresent()) {
-            userDto = mapper.map(existUser.get(), UserDto.class);
-            userDto.setEmail(user.getEmail());
-            userDto.setName(user.getName());
-            userDto.setPassword(user.getPassword());
-            userDto = service.deleteUser(userDto);
+            userDto = service.deleteUser(userId);
+
+            ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
+
+            return ResponseEntity.ok().body(responseUser);
         }
 
         return ResponseEntity.notFound().build();
@@ -163,7 +163,6 @@ public class UserController {
     /**
      * 로그인 모놀리틱 방식(옛날 방식).
      */
-
 //    @PostMapping("/login")
 //    public ResponseEntity<ResponseUser> loginCheck(@RequestBody RequestLogin user, HttpServletRequest request) {
 //          모놀리틱 방식(예전 방식)
