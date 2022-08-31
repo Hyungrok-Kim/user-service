@@ -143,7 +143,7 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ResponseUser> deleteUser(@PathVariable("userId") String userId, @RequestBody RequestUser user) {
+    public ResponseEntity<ResponseUser> deleteUser(@PathVariable("userId") String userId) {
         Optional<UserEntity> existUser = Optional.of(service.getUser(userId));
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
