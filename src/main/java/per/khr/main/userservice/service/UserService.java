@@ -14,8 +14,12 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
 
     UserDto createUser(UserDto userDto);
+
     List<UserEntity> getUsers();
+
     UserEntity getUser(String userId);
+
     UserDto modifyUser(UserDto userDto);
+
     UserDto deleteUser(UserDto userDto);
 }

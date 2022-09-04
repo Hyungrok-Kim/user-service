@@ -33,15 +33,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private UserService service;
 
     /**
-     *  setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/users/login","POST"));
-     *  /users/login 주소에 POST 요청이 발생했을 때 인증 필터를 거치도록하기 위한 설정.
+     * setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/users/login","POST"));
+     * /users/login 주소에 POST 요청이 발생했을 때 인증 필터를 거치도록하기 위한 설정.
+     *
      * @param service
      * @param authManager
      */
     @Autowired
     public AuthenticationFilter(UserService service, AuthenticationManager authManager) {
         super.setAuthenticationManager(authManager);
-        setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/users/login","POST"));
+        setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/users/login", "POST"));
         this.service = service;
     }
 
@@ -63,6 +64,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     /**
      * attemptAuthentication 메소드에서 정상적으로 return 시 실행
      * 인증 성공 시 JWT token 발행해주자~
+     *
      * @param request
      * @param response
      * @param chain

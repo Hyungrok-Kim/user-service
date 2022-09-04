@@ -75,10 +75,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @PathVariable을 통한 User 조회.
-     *
      * @param userId : 사용자 아이디
      * @return UserEntity
+     * @PathVariable을 통한 User 조회.
      */
     @Override
     public UserEntity getUser(String userId) {
@@ -86,9 +85,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @PathVariable로 받은 유저에 해당하는 User 정보 수정.
      * @param userDto
      * @return
+     * @PathVariable로 받은 유저에 해당하는 User 정보 수정.
      */
     @Override
     public UserDto modifyUser(UserDto userDto) {
@@ -104,9 +103,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @PathVariable로 받은 유저에 해당하는 User 삭제.
      * @param userDto : 유저 정보.
      * @return
+     * @PathVariable로 받은 유저에 해당하는 User 삭제.
      */
     @Override
     public UserDto deleteUser(UserDto userDto) {

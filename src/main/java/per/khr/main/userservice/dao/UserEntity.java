@@ -15,8 +15,8 @@ public class UserEntity {
     private String email;
     @Column(length = 50)
     private String name;
-    @Column(name="user_id", nullable = false, unique = true)
+    @Column(name = "user_id", nullable = false, unique = true)
     private String userId;
-    @Column(name="encrypted_password", nullable = false, unique = true)
+    @Column(name = "encrypted_password", nullable = false, unique = true)
     private String encryptedPassword;
 }
